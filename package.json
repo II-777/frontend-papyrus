@@ -2,10 +2,10 @@
   "name": "parcel-project-template",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://II-777.github.io/project-papyrus8",
+  "homepage": "https://ii-777.github.io/frontend-papyrus",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /project-papyrus8/"
+    "build": "parcel build src/*.html --public-url /frontend-papyrus/"
   },
   "repository": {
     "type": "git",

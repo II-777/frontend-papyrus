@@ -8,7 +8,7 @@ A bookstore front end from Team 8 (Web Weavers). The home page lists best-seller
 
 ## Live
 
-https://ii-777.github.io/papyrus/index.html
+https://ii-777.github.io/frontend-papyrus/index.html
 
 ## Date
 
