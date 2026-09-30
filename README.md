@@ -1,8 +1,12 @@
 # Project Papyrus 8
 
-A bookstore front end built with a GoIT group, Team 8 (Web Weavers). The home page lists best-seller books by category, and the app includes a shopping list plus sign-in.
+A bookstore front end from Team 8 (Web Weavers). The home page lists best-seller books by category, and the app includes a shopping list plus sign-in.
 
 **Stack:** HTML, CSS, JavaScript, Parcel, Firebase, Axios
+
+## Live
+
+https://ii-777.github.io/papyrus/index.html
 
 ## Date
 
