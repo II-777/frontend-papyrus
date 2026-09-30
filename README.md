@@ -2,6 +2,8 @@
 
 A bookstore front end from Team 8 (Web Weavers). The home page lists best-seller books by category, and the app includes a shopping list plus sign-in.
 
+![Preview](preview.jpg)
+
 **Stack:** HTML, CSS, JavaScript, Parcel, Firebase, Axios
 
 ## Live
