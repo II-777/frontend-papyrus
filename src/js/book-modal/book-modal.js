@@ -16,9 +16,10 @@ function onClick(evt) {
 
   getBookId(bookCardId)
     .then(obj => {
-      if (bookCard.classList.contains('js-home-books-item')) {
-        createMarkup(obj);
+      if (!obj || !bookCard.classList.contains('js-home-books-item')) {
+        return;
       }
+      createMarkup(obj);
 
       const addBook = document.querySelector('#js-book-modal-btn');
 

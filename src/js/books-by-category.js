@@ -25,12 +25,15 @@ function onBtnMoreClick(evt) {
   addCategoryTitleAccent(categoryName);
 
   getBooksInCategory(categoryName)
-    .then(data =>
+    .then(data => {
+      if (!data?.length) {
+        return;
+      }
       refs.homeCategoryBooksList.insertAdjacentHTML(
         'beforeend',
         createMarkup(data)
-      )
-    )
+      );
+    })
     .catch(err => console.log(err));
 }
 
@@ -70,43 +73,43 @@ function onCategoryClick(evt) {
       return;
     } else {
       getBooksInCategory(categoryName)
-        .then(data =>
+        .then(data => {
+          if (!data?.length) {
+            return;
+          }
           refs.homeCategoryBooksList.insertAdjacentHTML(
             'beforeend',
             createMarkup(data)
-          )
-        )
+          );
+        })
         .catch(err => console.log(err));
     }
   }
 }
 
 function createMarkup(obj) {
-  let bookTitleLength = 28;
-  let authorLength = 40;
-
-  if (window.screen.width >= 768 && window.screen.width < 1440) {
-    bookTitleLength = 23;
-    authorLength = 30;
-  } else if (window.screen.width >= 1440) {
-    bookTitleLength = 19;
-    authorLength = 25;
-  }
-  return obj
+  const bookTitleLength = 40;
+  const authorLength = 40;
+  const books = obj
     .map(({ author, book_image, title, _id }) => {
-      title.length > bookTitleLength
-        ? (title = title.slice(0, bookTitleLength - 3) + '...')
-        : title;
-      author.length > authorLength
-        ? (author = author.slice(0, authorLength - 3) + '...')
-        : author;
+      const safeTitle = title || '';
+      const safeAuthor = author || '';
+      const shortTitle =
+        safeTitle.length > bookTitleLength
+          ? safeTitle.slice(0, bookTitleLength - 3) + '...'
+          : safeTitle;
+      const shortAuthor =
+        safeAuthor.length > authorLength
+          ? safeAuthor.slice(0, authorLength - 3) + '...'
+          : safeAuthor;
       return `<li class="home-books-item js-home-books-item" data-id=${_id}>
-                <img class="home-books-book-picture" src="${book_image}" alt="${title}" />
-                <p class="home-books-book-title">${title}</p>
-                <p class="home-books-book-author">${author}</p>
+                <img class="home-books-book-picture" src="${book_image}" alt="${shortTitle}" />
+                <p class="home-books-book-title">${shortTitle}</p>
+                <p class="home-books-book-author">${shortAuthor}</p>
               </li>`;
     })
     .join('');
+  return `<li class="home-books-category-item"><ul class="home-books-list">${books}</ul></li>`;
 }
 
 function addCategoryTitleAccent(title) {

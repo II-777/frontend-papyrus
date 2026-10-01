@@ -22,7 +22,7 @@ export function onClickSignIn(e) {
 //       last_login: dt,
 //     })
 
-//     Notify.success('Пользователь вошел!')
+//     Notify.success('You are now signed in.')
 //   })
 //   .catch((error) => {
 //     const errorCode = error.code;

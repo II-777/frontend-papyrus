@@ -7,6 +7,15 @@ function windowLoad() {
     refs.bodyEl.classList.add('dark-theme');
   }
 }
+const onShoppingPage = window.location.pathname.includes('shopping-cart');
+refs.headerHomeBtn.forEach(link => link.classList.toggle('current', !onShoppingPage));
+refs.headerShoppingListBtn.forEach(link =>
+  link.classList.toggle('current', onShoppingPage)
+);
+if (saveUserTheme === 'dark' && refs.toggleEl) {
+  refs.toggleEl.checked = true;
+}
+
 refs.toggleEl.addEventListener('click', switchTheme);
 export function switchTheme() {
   saveUserTheme === 'light'

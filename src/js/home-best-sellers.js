@@ -19,53 +19,43 @@ function onAllCategoriesClick(evt) {
   refs.homeMainTitleAccent.textContent = 'Books';
   bestSellersToRender();
 }
+function booksFromCategories(categories) {
+  return categories.flatMap(({ books }) => books);
+}
 function bestSellersToRender() {
+  startCategory = 0;
   getTopBooks()
     .then(data => {
+      if (!Array.isArray(data) || !data.length) {
+        return;
+      }
       bestsellers = data;
+      endCategory = bestsellers.length;
       refs.homeCategoryBooksList.insertAdjacentHTML(
         'beforeend',
-        createCategoryBooksList(bestsellers)
+        `<li class="home-books-category-item"><ul class="home-books-list">${createBooksList(
+          booksFromCategories(bestsellers.slice(0, 4))
+        )}</ul></li>`
       );
       observer.observe(refs.homeObserverTarget);
     })
     .catch(err => console.log(err));
 }
 bestSellersToRender();
-function createCategoryBooksList(bestSellers) {
-  endCategory = bestSellers.length;
-  return bestSellers
-    .slice(startCategory, startCategory + 4)
-    .map(({ list_name, books }) => {
-      return `<li class="home-books-category-item js-category-item">
-        <h3 class="home-books-category-title">${list_name}</h3>
-        <ul class="home-books-list">${createBooksList(books)}  </ul>
-        <button class="home-see-more-btn js-btn-more" type="button" data-category='${list_name}'>See more</button>
-        </li>`;
-    })
-    .join('');
-}
 function createBooksList(books) {
-  let booksToRender = 1;
-  let bookTitleLength = 30;
-  if (window.screen.width >= 768 && window.screen.width < 1440) {
-    booksToRender = 3;
-    bookTitleLength = 23;
-  } else if (window.screen.width >= 1440) {
-    booksToRender = 5;
-    bookTitleLength = 19;
-  }
+  const bookTitleLength = 40;
 
   return books
-    .slice(0, booksToRender)
     .map(({ _id, author, book_image, title }) => {
-      title.length > bookTitleLength
-        ? (title = title.slice(0, bookTitleLength - 3) + '...')
-        : title;
+      const safeTitle = title || '';
+      const shortTitle =
+        safeTitle.length > bookTitleLength
+          ? safeTitle.slice(0, bookTitleLength - 3) + '...'
+          : safeTitle;
       return `  <li class="home-books-item js-home-books-item" data-id=${_id}>
-                <img class="home-books-book-picture" src="${book_image}" alt="${title}" />
-                <p class="home-books-book-title">${title}</p>
-                <p class="home-books-book-author">${author}</p>
+                <img class="home-books-book-picture" src="${book_image}" alt="${shortTitle}" />
+                <p class="home-books-book-title">${shortTitle}</p>
+                <p class="home-books-book-author">${author || ''}</p>
               </li>`;
     })
     .join('');
@@ -73,9 +63,16 @@ function createBooksList(books) {
 
 function scrollByCategoriesDown() {
   startCategory += 4;
-  refs.homeCategoryBooksList.insertAdjacentHTML(
+  if (startCategory >= bestsellers.length) {
+    observer.unobserve(refs.homeObserverTarget);
+    return;
+  }
+  const list = refs.homeCategoryBooksList.querySelector('.home-books-list');
+  list?.insertAdjacentHTML(
     'beforeend',
-    createCategoryBooksList(bestsellers)
+    createBooksList(
+      booksFromCategories(bestsellers.slice(startCategory, startCategory + 4))
+    )
   );
 }
 refs.homeMainScrollUp.addEventListener('click', scrollByCategoriesUp);

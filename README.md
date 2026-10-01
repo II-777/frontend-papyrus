@@ -4,7 +4,7 @@ A bookstore front end from Team 8 (Web Weavers). The home page lists best-seller
 
 ![Preview](preview.jpg)
 
-**Stack:** HTML, CSS, JavaScript, Parcel, Firebase, Axios
+**Stack:** HTML, Tailwind CSS, JavaScript, Parcel, Firebase, Axios
 
 ## Live
 
