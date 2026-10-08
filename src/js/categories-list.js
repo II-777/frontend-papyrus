@@ -36,10 +36,14 @@ import { refs } from './refs-elements';
 // Функція створення розмітки для меню з категоріями
 function createMarkupCategoryList(arr) {
   return arr
-    .map(
-      ({ list_name }) =>
-        `<li class="categories-list__item categories-list__item-name js-category-name-item" data-category='${list_name}'>${list_name}</li>`
-    )
+    .map(({ list_name }) => {
+      const item = document.createElement('li');
+      item.className =
+        'categories-list__item categories-list__item-name js-category-name-item';
+      item.dataset.category = list_name;
+      item.textContent = list_name;
+      return item.outerHTML;
+    })
     .join('');
 }
 
@@ -47,12 +51,15 @@ function createMarkupCategoryList(arr) {
 
 createAllCategories();
 getCategoryList()
-  .then(data =>
+  .then(data => {
+    if (!Array.isArray(data) || !data.length) {
+      return;
+    }
     refs.categoriesContainer.insertAdjacentHTML(
       'beforeend',
       createMarkupCategoryList(data)
-    )
-  )
+    );
+  })
   .catch(error => console.log(error));
 
 function createAllCategories() {

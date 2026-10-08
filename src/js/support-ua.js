@@ -78,28 +78,26 @@ const supportList = document.querySelector('.js-support');
 const markup = createImageCardMarkup(supportArray);
 
 supportList.insertAdjacentHTML('beforeend', markup);
-supportList.addEventListener('click', onClick);
+
+const supportButton = document.querySelector('.support-button');
+supportButton?.addEventListener('click', () => {
+  const scroller = document.querySelector('.slider-container');
+  scroller?.scrollBy({ top: 140, behavior: 'smooth' });
+});
 
 function createImageCardMarkup(supportArray) {
 
   return supportArray
     .map(({ title, url, img, img2x }, ind) => {
       let num = String(ind + 1).padStart(2, '0');
-      return `<li class="support-link js-support">
-        <a class="js-target" href="${url}" target="_blank">
-          <span class="support-number">${num}
-          <img class="support-img" srcset="${img} 1x, ${img2x} 2x"
-          src="${img}" alt="${title}"/></span>
+      return `<li class="support-link">
+        <a class="js-target support-number" href="${url}" target="_blank" rel="noreferrer">
+          <span>${num}</span>
+          <img class="support-img" srcset="${img} 1x, ${img2x} 2x" src="${img}" alt="${title}" />
         </a>
       </li>`;
     })
     .join('');
-}
-
-function onClick(evt) {
-  if (!evt.target.classList.contains('js-support')) {
-    return;
-  }
 }
 
 // let position = 0;

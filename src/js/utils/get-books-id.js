@@ -7,13 +7,16 @@ export async function getBookId(id) {
         instanceApiBookID._id = id;
         const objectResolve = await instanceApiBookID.fetchPhoto();
 
-        if(objectResolve.length === 0) {
-          return Notify.failure('Sorry, there are no books matching your search query. Please try again.')
+        if (!objectResolve || typeof objectResolve !== 'object') {
+          Notify.failure(
+            'The book service is busy right now. Please try again.'
+          );
+          return null;
         }
-        
-        return objectResolve
-        
-      } catch(error) {
+
+        return objectResolve;
+      } catch (error) {
         console.log(error.message);
+        return null;
       } 
 }

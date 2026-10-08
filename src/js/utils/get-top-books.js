@@ -6,14 +6,23 @@ export async function getTopBooks() {
   try {
     const objectResolve = await instanceApiServiceTopBooks.fetchPhoto();
 
-    if (objectResolve.length === 0) {
-      return Notify.failure(
-        'Sorry, there are no books matching your search query. Please try again.'
+    if (!Array.isArray(objectResolve)) {
+      Notify.failure(
+        'The book service is busy right now. Please try again.'
       );
+      return [];
+    }
+
+    if (objectResolve.length === 0) {
+      Notify.failure(
+        'No bestsellers are available right now.'
+      );
+      return [];
     }
 
     return objectResolve;
   } catch (error) {
     console.log(error.message);
+    return [];
   }
 }

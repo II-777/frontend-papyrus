@@ -4,17 +4,26 @@ import { instanceApiSelectedCategory } from '../api-service';
 
 export async function getBooksInCategory(category) {
   try {
-    instanceApiSelectedCategory.selectedCategory = category;
+    instanceApiSelectedCategory.selectedCategory = encodeURIComponent(category);
     const objectResolve = await instanceApiSelectedCategory.fetchPhoto();
 
-    if (objectResolve.length === 0) {
-      return Notify.failure(
-        'Sorry, there are no books matching your search query. Please try again.'
+    if (!Array.isArray(objectResolve)) {
+      Notify.failure(
+        'The book service is busy right now. Please try that category again.'
       );
+      return [];
+    }
+
+    if (objectResolve.length === 0) {
+      Notify.failure(
+        'There are no books in this category.'
+      );
+      return [];
     }
 
     return objectResolve;
   } catch (error) {
     console.log(error.message);
+    return [];
   }
 }

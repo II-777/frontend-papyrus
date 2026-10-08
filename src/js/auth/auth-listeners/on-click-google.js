@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { ref, set, update } from "firebase/database";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { authErrorMessage } from "./auth-notify";
 
 import { auth, database } from "./auth-config-firebase";
 // import { provider } from "./auth-config-firebase";
@@ -22,12 +23,10 @@ export function onClickGoogle() {
             email,
             })
             onCloseModalLogin();
-            Notify.success('Користувач зареєстрован!');
+            Notify.success('Your account has been created.');
         })
         .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message; 
-            Notify.failure(errorMessage);
+            Notify.failure(authErrorMessage(error));
         });
 
         const user = auth.currentUser;
@@ -53,13 +52,10 @@ export function onClickGoogle() {
             last_login: dt,
             })
             onCloseModalLogin();
-            Notify.success('Користувач увійшов!')
+            Notify.success('You are now signed in.')
         })
         .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-
-            Notify.failure(errorMessage);
+            Notify.failure(authErrorMessage(error));
         });
     }
 //     signInWithPopup(auth, provider)
@@ -74,7 +70,7 @@ export function onClickGoogle() {
 //           email: user.email,
 //         })
 
-//         Notify.success('Пользователь зарегистрирован!')
+//         Notify.success('Your account has been created.')
 //         // IdP data available using getAdditionalUserInfo(result)
 //         // ...
 //       }).catch((error) => {

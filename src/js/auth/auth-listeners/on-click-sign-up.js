@@ -25,7 +25,7 @@ export function onClickSignUp (e) {
   //     username,
   //     email,
   //   })
-  //   Notify.success('Пользователь зарегистрирован!');
+  //   Notify.success('Your account has been created.');
   //   onCloseModalLogin();
   // })
   // .catch((error) => {

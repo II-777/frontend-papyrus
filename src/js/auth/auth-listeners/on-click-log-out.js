@@ -3,15 +3,13 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 import { auth } from "./auth-config-firebase";
 import { refs } from "../../refs-elements";
+import { authErrorMessage } from "./auth-notify";
 
 export function onClickLogOut() {
   signOut(auth).then(() => {
-    Notify.success('Користувач вийшов!');
+    Notify.success('You have logged out.');
     refs.headerNav.setAttribute('hidden', true);
   }).catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-
-    Notify.failure(errorMessage);
+    Notify.failure(authErrorMessage(error));
   });
 }
